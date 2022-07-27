@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>visiblecardrewards</groupId>
+    <artifactId>visiblecardrewards</artifactId>
+    <version>v1.0.1</version>
+    <packaging>jar</packaging>
+
+    <name>Visible Card Rewards</name>
+    <description>One less click to take your card rewards!</description>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <SlayTheSpire.version>12-22-2020</SlayTheSpire.version>
+        <ModTheSpire.version>3.23.4</ModTheSpire.version>
+        <EvilWithin.version>4.1.14</EvilWithin.version>
+        <BaseMod.version>5.41.0</BaseMod.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--CHANGE THIS TO YOUR STEAM INSTALLATION-->
+        <Steam.path>D:\Prog\Steam\steamapps</Steam.path>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.megacrit.cardcrawl</groupId>
+            <artifactId>slaythespire</artifactId>
+            <version>${SlayTheSpire.version}</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../lib/desktop-1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.evacipated.cardcrawl</groupId>
+            <artifactId>ModTheSpire</artifactId>
+            <version>${ModTheSpire.version}</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../lib/ModTheSpire.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>basemod</groupId>
+            <artifactId>BaseMod</artifactId>
+            <version>${BaseMod.version}</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../lib/BaseMod.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>
