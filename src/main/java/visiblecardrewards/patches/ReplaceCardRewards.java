@@ -9,6 +9,8 @@ import VisibleCardRewards.rewards.SingleCardReward;
 
 import java.util.ArrayList;
 
+import static VisibleCardRewards.patches.NewRewardtypePatch.VCR_SINGLECARDREWARD;
+
 @SpirePatch(clz=CombatRewardScreen.class, method="setupItemReward")
 public class ReplaceCardRewards {
     public static void Postfix(CombatRewardScreen __instance) {
@@ -28,6 +30,8 @@ public class ReplaceCardRewards {
                     AbstractDungeon.cardBlizzRandomizer = prevBlizz;
                 }
                 for (SingleCardReward option : cardOptions) {
+                    if (AbstractDungeon.player.hasRelic("YesRelic") && option.type == VCR_SINGLECARDREWARD)
+                        continue;
                     for (SingleCardReward otherOption : cardOptions) {
                         if (option != otherOption)
                             option.addCardLink(otherOption);

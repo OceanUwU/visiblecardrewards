@@ -23,6 +23,7 @@ import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static VisibleCardRewards.patches.NewRewardtypePatch.VCR_SINGLECARDREWARD;
@@ -108,6 +109,12 @@ public class SingleCardReward extends CustomReward {
     @Override
     public void update() {
         super.update();
+
+        for (Iterator<SingleCardReward> i = cardLinks.iterator(); i.hasNext(); ) {
+            SingleCardReward link = i.next();
+            if (!AbstractDungeon.combatRewardScreen.rewards.contains(link))
+                i.remove();
+        }
 
         if (isFirst()) {
             redText = false;
