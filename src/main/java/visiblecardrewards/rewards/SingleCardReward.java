@@ -1,6 +1,7 @@
 package VisibleCardRewards.rewards;
 
 import VisibleCardRewards.VisibleCardRewards;
+import VisibleCardRewards.patches.CardDeletionPrevention;
 import basemod.abstracts.CustomReward;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -93,7 +94,12 @@ public class SingleCardReward extends CustomReward {
     @Override
     public boolean claimReward() {
         if (type == VCR_SINGLECARDREWARD) {
-            AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(card, InputHelper.mX, InputHelper.mY));
+            ShowCardAndObtainEffect effect = new ShowCardAndObtainEffect(renderCard, renderCard.current_x, renderCard.current_y);
+            CardDeletionPrevention.FromSingleRewardField.single.set(effect, true);
+            AbstractDungeon.topLevelEffects.add(effect);
+            (AbstractDungeon.getCurrRoom()).souls.obtain(renderCard, true);
+            for (AbstractRelic r : AbstractDungeon.player.relics)
+                r.onMasterDeckChange(); 
         } else if (type == VCR_BOWLREWARD) {
             (new SingingBowlButton()).onClick();
         }
@@ -125,9 +131,12 @@ public class SingleCardReward extends CustomReward {
         if (hb.hovered) {
             for (SingleCardReward link : cardLinks)
                 link.redText = hb.hovered;
-            if (InputHelper.justClickedRight)
-                discounted = !discounted;
+            if (InputHelper.justClickedRight && type == VCR_SINGLECARDREWARD)
+                CardCrawlGame.cardPopup.open(renderCard);
         }
+
+        if (hb.justHovered && InputHelper.isMouseDown_R)
+            discounted = !discounted;
     }
 
     @Override
