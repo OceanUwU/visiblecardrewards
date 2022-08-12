@@ -1,4 +1,4 @@
-package VisibleCardRewards.patches;
+package visiblecardrewards.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.rewards.RewardItem;

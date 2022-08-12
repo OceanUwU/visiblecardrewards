@@ -1,4 +1,4 @@
-package VisibleCardRewards.patches;
+package visiblecardrewards.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.relics.FrozenEgg2;
 import com.megacrit.cardcrawl.relics.MoltenEgg2;
 import com.megacrit.cardcrawl.relics.ToxicEgg2;
 import com.megacrit.cardcrawl.rewards.RewardItem;
-import VisibleCardRewards.rewards.SingleCardReward;
+import visiblecardrewards.rewards.SingleCardReward;
 
 public class EggPickup {
     public static void upgradeAllOfType(AbstractCard.CardType type) {

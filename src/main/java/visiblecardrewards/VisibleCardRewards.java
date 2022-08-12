@@ -1,10 +1,10 @@
-package VisibleCardRewards;
+package visiblecardrewards;
 
 import basemod.BaseMod;
 import basemod.interfaces.PostRenderSubscriber;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
-import VisibleCardRewards.rewards.SingleCardReward;
+import visiblecardrewards.rewards.SingleCardReward;
 
 @SpireInitializer
 public class VisibleCardRewards implements PostRenderSubscriber {

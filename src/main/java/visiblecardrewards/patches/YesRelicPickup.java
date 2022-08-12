@@ -1,15 +1,15 @@
-package VisibleCardRewards.patches;
+package visiblecardrewards.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rewards.RewardItem;
-import VisibleCardRewards.rewards.SingleCardReward;
+import visiblecardrewards.rewards.SingleCardReward;
 
 import java.util.Iterator;
 
-import static VisibleCardRewards.patches.NewRewardtypePatch.VCR_SINGLECARDREWARD;
-import static VisibleCardRewards.patches.NewRewardtypePatch.VCR_BOWLREWARD;
+import static visiblecardrewards.patches.NewRewardtypePatch.VCR_SINGLECARDREWARD;
+import static visiblecardrewards.patches.NewRewardtypePatch.VCR_BOWLREWARD;
 
 @SpirePatch(clz=AbstractRelic.class, method="onEquip")
 public class YesRelicPickup {

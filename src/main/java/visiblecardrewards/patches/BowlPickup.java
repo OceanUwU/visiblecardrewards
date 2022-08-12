@@ -1,4 +1,4 @@
-package VisibleCardRewards.patches;
+package visiblecardrewards.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -7,10 +7,10 @@ import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.SingingBowl;
 import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.screens.CombatRewardScreen;
-import VisibleCardRewards.rewards.SingleCardReward;
+import visiblecardrewards.rewards.SingleCardReward;
 
-import static VisibleCardRewards.patches.NewRewardtypePatch.VCR_SINGLECARDREWARD;
-import static VisibleCardRewards.patches.NewRewardtypePatch.VCR_BOWLREWARD;
+import static visiblecardrewards.patches.NewRewardtypePatch.VCR_SINGLECARDREWARD;
+import static visiblecardrewards.patches.NewRewardtypePatch.VCR_BOWLREWARD;
 
 public class BowlPickup {
     private static boolean bowlPickedUp = false;
@@ -40,9 +40,7 @@ public class BowlPickup {
                         }
                         if (hasHpReward) continue;
                         if (!((SingleCardReward)reward).isLast()) continue;
-                        int prevBlizz = AbstractDungeon.cardBlizzRandomizer;
                         SingleCardReward hpReward = new SingleCardReward();
-                        AbstractDungeon.cardBlizzRandomizer = prevBlizz;
                         hpReward.addCardLink((SingleCardReward)reward);
                         for (SingleCardReward link : ((SingleCardReward)reward).cardLinks) {
                             hpReward.addCardLink(link);

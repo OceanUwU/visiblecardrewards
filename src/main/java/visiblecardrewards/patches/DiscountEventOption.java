@@ -1,4 +1,4 @@
-package VisibleCardRewards.patches;
+package visiblecardrewards.patches;
 
 import com.badlogic.gdx.graphics.Color;
 import com.evacipated.cardcrawl.modthespire.lib.SpireField;

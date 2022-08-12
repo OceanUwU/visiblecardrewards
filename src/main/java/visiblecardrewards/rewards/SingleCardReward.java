@@ -1,7 +1,7 @@
-package VisibleCardRewards.rewards;
+package visiblecardrewards.rewards;
 
-import VisibleCardRewards.VisibleCardRewards;
-import VisibleCardRewards.patches.CardDeletionPrevention;
+import visiblecardrewards.VisibleCardRewards;
+import visiblecardrewards.patches.CardDeletionPrevention;
 import basemod.abstracts.CustomReward;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -21,14 +21,16 @@ import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.ui.buttons.SingingBowlButton;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
+import pansTrinkets.cards.AbstractTrinket;
+import pansTrinkets.helpers.TrinketHelper;
 
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static VisibleCardRewards.patches.NewRewardtypePatch.VCR_SINGLECARDREWARD;
-import static VisibleCardRewards.patches.NewRewardtypePatch.VCR_BOWLREWARD;
+import static visiblecardrewards.patches.NewRewardtypePatch.VCR_SINGLECARDREWARD;
+import static visiblecardrewards.patches.NewRewardtypePatch.VCR_BOWLREWARD;
 
 public class SingleCardReward extends CustomReward {
     private static final float XOFFSET = 25f * Settings.scale;
@@ -37,6 +39,7 @@ public class SingleCardReward extends CustomReward {
     public AbstractCard card;
     public AbstractCard renderCard;
     private boolean discounted = false;
+    public boolean isTrinket = false;
 
     public SingleCardReward(AbstractCard c) {
         super(null, "", VCR_SINGLECARDREWARD);
@@ -93,6 +96,9 @@ public class SingleCardReward extends CustomReward {
 
     @Override
     public boolean claimReward() {
+        if (isTrinket && ((AbstractTrinket)card).weight + TrinketHelper.carriedWeight(AbstractDungeon.player) > TrinketHelper.maxWeight)
+            return false;
+        
         if (type == VCR_SINGLECARDREWARD) {
             ShowCardAndObtainEffect effect = new ShowCardAndObtainEffect(renderCard, renderCard.current_x, renderCard.current_y);
             CardDeletionPrevention.FromSingleRewardField.single.set(effect, true);

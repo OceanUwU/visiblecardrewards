@@ -1,8 +1,8 @@
-package VisibleCardRewards.patches;
+package visiblecardrewards.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.screens.CombatRewardScreen;
-import VisibleCardRewards.rewards.SingleCardReward;
+import visiblecardrewards.rewards.SingleCardReward;
 
 import java.lang.reflect.Method;
 
