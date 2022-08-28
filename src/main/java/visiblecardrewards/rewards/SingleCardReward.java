@@ -15,7 +15,10 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.PowerTip;
+import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rewards.RewardItem;
@@ -195,6 +198,25 @@ public class SingleCardReward extends CustomReward {
         hb.render(sb);
     }
 
+    private void renderCardKeywordTips(SpriteBatch sb) {
+        ArrayList<PowerTip> t = new ArrayList<>();
+        for (String s : renderCard.keywords) {
+            if (!s.equals("[R]") && !s.equals("[G]") && !s.equals("[B]") && !s.equals("[W]") && !s.equals("[E]"))
+                t.add(new PowerTip(TipHelper.capitalize(s), (String)GameDictionary.keywords.get(s))); 
+        } 
+        if (!t.isEmpty()) {
+            TipHelper.queuePowerTips(renderCard.current_x + renderCard.hb.width * 0.6F, renderCard.current_y + renderCard.hb.height * 0.38F, t); 
+            TipHelper.render(sb);
+        }
+        if (renderCard.cardsToPreview != null) {
+            renderCard.cardsToPreview.current_x = renderCard.current_x + renderCard.hb.width * 1.1F;
+            if (!t.isEmpty())
+                renderCard.cardsToPreview.current_x += renderCard.hb.width * 0.1F + 320.0F * Settings.scale;
+            renderCard.cardsToPreview.current_y = renderCard.current_y;
+            renderCard.cardsToPreview.render(sb); 
+        }
+    }
+
     @SpireOverride
     protected void renderRelicLink(SpriteBatch sb) {
         SpireSuper.call(sb);
@@ -204,6 +226,7 @@ public class SingleCardReward extends CustomReward {
     public void renderCardOnHover(SpriteBatch sb) {
         renderCard.current_x = card.target_x = InputHelper.mX + (AbstractCard.RAW_W * renderCard.drawScale) * Settings.scale;
         renderCard.current_y = card.target_y = InputHelper.mY;
+        renderCardKeywordTips(sb);
         renderCard.render(sb);
     }
 }
