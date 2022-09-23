@@ -3,17 +3,17 @@ package visiblecardrewards.rewards;
 import visiblecardrewards.VisibleCardRewards;
 import visiblecardrewards.patches.CardDeletionPrevention;
 import basemod.abstracts.CustomReward;
+import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.MultiCardPreview;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireOverride;
 import com.evacipated.cardcrawl.modthespire.lib.SpireSuper;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.colorless.Madness;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
@@ -27,7 +27,6 @@ import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 import pansTrinkets.cards.AbstractTrinket;
 import pansTrinkets.helpers.TrinketHelper;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +42,8 @@ public class SingleCardReward extends CustomReward {
     public AbstractCard renderCard;
     private boolean discounted = false;
     public boolean isTrinket = false;
+    private float switchPreviewTimer = 1.0F;
+    private int previewing = 0;
 
     public SingleCardReward(AbstractCard c) {
         super(null, "", VCR_SINGLECARDREWARD);
@@ -142,6 +143,13 @@ public class SingleCardReward extends CustomReward {
                 link.redText = hb.hovered;
             if (InputHelper.justClickedRight && type == VCR_SINGLECARDREWARD)
                 CardCrawlGame.cardPopup.open(renderCard);
+        }
+
+        switchPreviewTimer -= Gdx.graphics.getDeltaTime();
+        if (switchPreviewTimer < 0.0F) {
+            switchPreviewTimer = 2.0F;
+            if (type == VCR_SINGLECARDREWARD && !MultiCardPreview.multiCardPreview.get(renderCard).isEmpty())
+                renderCard.cardsToPreview = MultiCardPreview.multiCardPreview.get(renderCard).get(++previewing % MultiCardPreview.multiCardPreview.get(renderCard).size());
         }
 
         if (hb.justHovered && InputHelper.isMouseDown_R)
