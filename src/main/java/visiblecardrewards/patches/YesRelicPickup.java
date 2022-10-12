@@ -9,7 +9,6 @@ import visiblecardrewards.rewards.SingleCardReward;
 import java.util.Iterator;
 
 import static visiblecardrewards.patches.NewRewardtypePatch.VCR_SINGLECARDREWARD;
-import static visiblecardrewards.patches.NewRewardtypePatch.VCR_BOWLREWARD;
 
 @SpirePatch(clz=AbstractRelic.class, method="onEquip")
 public class YesRelicPickup {

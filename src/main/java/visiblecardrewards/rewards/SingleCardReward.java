@@ -28,6 +28,7 @@ import pansTrinkets.cards.AbstractTrinket;
 import pansTrinkets.helpers.TrinketHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class SingleCardReward extends CustomReward {
     public AbstractCard renderCard;
     private boolean discounted = false;
     public boolean isTrinket = false;
+    public boolean skipRecorded = false;
     private float switchPreviewTimer = 1.0F;
     private int previewing = 0;
 
@@ -103,6 +105,7 @@ public class SingleCardReward extends CustomReward {
         if (isTrinket && ((AbstractTrinket)card).weight + TrinketHelper.carriedWeight(AbstractDungeon.player) > TrinketHelper.maxWeight)
             return false;
         
+        recordMetrics();
         if (type == VCR_SINGLECARDREWARD) {
             ShowCardAndObtainEffect effect = new ShowCardAndObtainEffect(renderCard, renderCard.current_x, renderCard.current_y);
             CardDeletionPrevention.FromSingleRewardField.single.set(effect, true);
@@ -154,6 +157,37 @@ public class SingleCardReward extends CustomReward {
 
         if (hb.justHovered && InputHelper.isMouseDown_R)
             discounted = !discounted;
+    }
+
+    private void recordMetrics() {
+        HashMap<String, Object> choice = new HashMap<>();
+        ArrayList<String> notpicked = new ArrayList<>();
+        for (SingleCardReward reward : cardLinks)
+            if (reward.type == VCR_SINGLECARDREWARD)
+                notpicked.add(reward.card.getMetricID()); 
+        if (type == VCR_SINGLECARDREWARD)
+            choice.put("picked", card.getMetricID());
+        else if (type == VCR_BOWLREWARD)
+            choice.put("picked", "Singing Bowl");
+        choice.put("not_picked", notpicked);
+        choice.put("floor", Integer.valueOf(AbstractDungeon.floorNum));
+        CardCrawlGame.metricData.card_choices.add(choice);
+    }
+
+    public void recordSkipMetrics() {
+        if (skipRecorded) return;
+        HashMap<String, Object> choice = new HashMap<>();
+        ArrayList<String> notpicked = new ArrayList<>();
+        notpicked.add(card.getMetricID()); 
+        for (SingleCardReward reward : cardLinks)
+            if (reward.type == VCR_SINGLECARDREWARD) {
+                reward.skipRecorded = true;
+                notpicked.add(reward.card.getMetricID()); 
+            }
+        choice.put("picked", "SKIP");
+        choice.put("not_picked", notpicked);
+        choice.put("floor", Integer.valueOf(AbstractDungeon.floorNum));
+        CardCrawlGame.metricData.card_choices.add(choice);
     }
 
     @Override
