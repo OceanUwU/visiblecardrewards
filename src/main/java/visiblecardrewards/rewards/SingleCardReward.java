@@ -29,6 +29,7 @@ import com.megacrit.cardcrawl.ui.buttons.SingingBowlButton;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 import pansTrinkets.cards.AbstractTrinket;
 import pansTrinkets.helpers.TrinketHelper;
+import sneckomod.cards.unknowns.AbstractUnknownCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -259,7 +260,15 @@ public class SingleCardReward extends CustomReward {
             TipHelper.queuePowerTips(renderCard.current_x + renderCard.hb.width * 0.6F, renderCard.current_y + renderCard.hb.height * 0.38F, t); 
             TipHelper.render(sb);
         }
-        if (renderCard.cardsToPreview != null) {
+        if (renderCard instanceof AbstractUnknownCard) {
+            renderCard.current_x += renderCard.hb.width * 0.1F;
+            if (!t.isEmpty())
+                renderCard.current_x += renderCard.hb.width * 0.1F + 320.0F * Settings.scale;
+            int WIDTH = Settings.WIDTH;
+            Settings.WIDTH = 0;
+            ((AbstractUnknownCard)renderCard).renderCardPreviewImpl(sb, false);
+            Settings.WIDTH = WIDTH;
+        } else if (renderCard.cardsToPreview != null) {
             renderCard.cardsToPreview.current_x = renderCard.current_x + renderCard.hb.width * 1.1F;
             if (!t.isEmpty())
                 renderCard.cardsToPreview.current_x += renderCard.hb.width * 0.1F + 320.0F * Settings.scale;
@@ -277,7 +286,7 @@ public class SingleCardReward extends CustomReward {
     public void renderCardOnHover(SpriteBatch sb) {
         renderCard.current_x = card.target_x = InputHelper.mX + (AbstractCard.RAW_W * renderCard.drawScale) * Settings.scale;
         renderCard.current_y = card.target_y = InputHelper.mY;
-        renderCardKeywordTips(sb);
         renderCard.render(sb);
+        renderCardKeywordTips(sb);
     }
 }

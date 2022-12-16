@@ -6,7 +6,7 @@
 
     <groupId>visiblecardrewards</groupId>
     <artifactId>visiblecardrewards</artifactId>
-    <version>v1.0.10</version>
+    <version>v1.0.11</version>
     <packaging>jar</packaging>
 
     <name>Visible Card Rewards</name>
@@ -21,6 +21,7 @@
         <BaseMod.version>5.44.1</BaseMod.version>
         <StSLib.version>2.5.0</StSLib.version>
         <PansTrinkets.version>0.1.4</PansTrinkets.version>
+        <EvilWithin.version>4.1.14</EvilWithin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--CHANGE THIS TO YOUR STEAM INSTALLATION-->
         <Steam.path>D:\Prog\Steam\steamapps</Steam.path>
@@ -61,6 +62,13 @@
             <version>${PansTrinkets.version}</version>
             <scope>system</scope>
             <systemPath>${basedir}/../lib/PansTrinkets.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>evilwithin</groupId>
+            <artifactId>EvilWithin</artifactId>
+            <version>${EvilWithin.version}</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../lib/downfall.jar</systemPath>
         </dependency>
     </dependencies>
 
