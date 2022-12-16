@@ -1,11 +1,16 @@
 package visiblecardrewards.patches;
 
+import com.evacipated.cardcrawl.mod.stslib.relics.CardRewardSkipButtonRelic;
 import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.relics.SingingBowl;
 import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.screens.CombatRewardScreen;
+import com.megacrit.cardcrawl.ui.buttons.SingingBowlButton;
 import pansTrinkets.patches.TrinketRewardTypePatch;
 import pansTrinkets.rewards.TrinketReward;
 import visiblecardrewards.rewards.SingleCardReward;
@@ -40,8 +45,14 @@ public class ReplaceCardRewards {
                         cardOptions.add(new SingleCardReward(c));
                 }
 
-                if (AbstractDungeon.player.hasRelic("Singing Bowl"))
-                    cardOptions.add(new SingleCardReward());
+                if (Loader.isModLoaded("stslib")) {
+                    for (AbstractRelic r : AbstractDungeon.player.relics) {
+                        if (r instanceof SingingBowl)
+                            cardOptions.add(new SingleCardReward(SingingBowlButton.TEXT[2], ImageMaster.TP_HP, r));
+                        if (CardRewardSkipButtonRelic.class.isAssignableFrom(r.getClass()))
+                            cardOptions.add(new SingleCardReward(((CardRewardSkipButtonRelic)r).getButtonLabel(), ImageMaster.TICK, r));
+                    }
+                }
                 
                 for (SingleCardReward option : cardOptions) {
                     if (AbstractDungeon.player.hasRelic("YesRelic") && option.type == VCR_SINGLECARDREWARD)

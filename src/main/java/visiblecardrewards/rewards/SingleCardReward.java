@@ -7,7 +7,9 @@ import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.MultiCardPrevie
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.mod.stslib.relics.CardRewardSkipButtonRelic;
 import com.evacipated.cardcrawl.modthespire.lib.SpireOverride;
 import com.evacipated.cardcrawl.modthespire.lib.SpireSuper;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -21,6 +23,7 @@ import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.relics.SingingBowl;
 import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.ui.buttons.SingingBowlButton;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
@@ -46,6 +49,8 @@ public class SingleCardReward extends CustomReward {
     public boolean skipRecorded = false;
     private float switchPreviewTimer = 1.0F;
     private int previewing = 0;
+    private Texture rewardTexture;
+    public AbstractRelic skipRelic;
 
     public SingleCardReward(AbstractCard c) {
         super(null, "", VCR_SINGLECARDREWARD);
@@ -53,8 +58,11 @@ public class SingleCardReward extends CustomReward {
         init();
     }
 
-    public SingleCardReward() {
+    public SingleCardReward(String buttonText, Texture texture, AbstractRelic relic) {
         super(null, "", VCR_BOWLREWARD);
+        text = buttonText;
+        rewardTexture = texture;
+        skipRelic = relic;
         init();
     }
 
@@ -65,8 +73,6 @@ public class SingleCardReward extends CustomReward {
 
             renderCard = card.makeStatEquivalentCopy();
             text = card.name;
-        } else if (type == VCR_BOWLREWARD) {
-            text = SingingBowlButton.TEXT[2];
         }
     }
 
@@ -114,7 +120,10 @@ public class SingleCardReward extends CustomReward {
             for (AbstractRelic r : AbstractDungeon.player.relics)
                 r.onMasterDeckChange(); 
         } else if (type == VCR_BOWLREWARD) {
-            (new SingingBowlButton()).onClick();
+            if (skipRelic instanceof SingingBowl)
+                (new SingingBowlButton()).onClick();
+            else
+                ((CardRewardSkipButtonRelic)skipRelic).onClickedButton();
         }
         for (RewardItem reward : AbstractDungeon.combatRewardScreen.rewards) {
             for (SingleCardReward link : cardLinks) {
@@ -230,7 +239,7 @@ public class SingleCardReward extends CustomReward {
             }
         } else if (type == VCR_BOWLREWARD) {
             sb.setColor(Color.WHITE.cpy());
-            sb.draw(ImageMaster.TP_HP, RewardItem.REWARD_ITEM_X - 32.0F, this.y - 32.0F - 2.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+            sb.draw(rewardTexture, RewardItem.REWARD_ITEM_X - 32.0F, this.y - 32.0F - 2.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
             FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, text, Settings.WIDTH * 0.434F, y + 5.0f * Settings.scale, 1000.0f * Settings.scale, 0.0f, Color.WHITE);
         }
 
