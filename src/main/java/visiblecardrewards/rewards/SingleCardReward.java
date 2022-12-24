@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.mod.stslib.relics.CardRewardSkipButtonRelic;
+import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.lib.SpireOverride;
 import com.evacipated.cardcrawl.modthespire.lib.SpireSuper;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -260,7 +261,7 @@ public class SingleCardReward extends CustomReward {
             TipHelper.queuePowerTips(renderCard.current_x + renderCard.hb.width * 0.6F, renderCard.current_y + renderCard.hb.height * 0.38F, t); 
             TipHelper.render(sb);
         }
-        if (renderCard instanceof AbstractUnknownCard) {
+        if (Loader.isModLoaded("downfall") && renderCard instanceof AbstractUnknownCard) {
             renderCard.current_x += renderCard.hb.width * 0.1F;
             if (!t.isEmpty())
                 renderCard.current_x += renderCard.hb.width * 0.1F + 320.0F * Settings.scale;
